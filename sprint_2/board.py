@@ -27,3 +27,23 @@ class Board:
                     return False
         return True
 
+    def put_letter(self, row, col, letter):
+        """Place letter on board"""
+
+        if self.is_empty(row, col):
+            self.grid[row][col] = letter
+            return True
+        else:
+            return False
+
+    def get_cell(self, row, col):
+        """Return cell value"""
+
+        if self.is_empty(row, col):
+            return ""
+        else:
+            return self.grid[row][col]
+
+
+
+
