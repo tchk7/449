@@ -40,3 +40,13 @@ def test_full_board():
         for col in range(board.size):
             board.put_letter(row, col, "S")
     assert board.is_full() == True
+
+def test_reset_board():
+    board = Board(3)
+    for row in range(board.size):
+        for col in range(board.size):
+            board.put_letter(row, col, "S")
+    assert not board.is_empty(0, 0)
+    assert board.is_full() == True
+    board.reset_board()
+    assert board.is_full() == False

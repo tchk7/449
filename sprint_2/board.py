@@ -11,9 +11,9 @@ class Board:
         """Create an empty grid"""
         self.grid = []
 
-        for rowIndex in range(self.size):
+        for row in range(self.size):
             row = []
-            for colIndex in range(self.size):
+            for col in range(self.size):
                 row.append("")
             self.grid.append(row)
 
@@ -23,9 +23,9 @@ class Board:
 
     def is_full(self):
         """Check if board is full"""
-        for rowIndex in range(self.size):
-            for colIndex in range(self.size):
-                if self.is_empty(rowIndex, colIndex):
+        for row in range(self.size):
+            for col in range(self.size):
+                if self.is_empty(row, col):
                     return False
         return True
 
@@ -46,6 +46,12 @@ class Board:
         else:
             return self.grid[row][col]
 
+    def reset_board(self):
+        """Reset board to empty"""
+
+        for row in range(self.size):
+            for col in range(self.size):
+                self.grid[row][col] = ""
 
 
 
