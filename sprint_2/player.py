@@ -3,10 +3,10 @@
 
 class Player:
     def __init__(self, name):
-        self.name = name
+        self.name = name + "Player"
         self.letter = ""
 
-    def letter(self, letter_choice):
+    def set_letter(self, letter_choice):
         if letter_choice.upper() in ("S", "O"):
             self.letter = letter_choice
         else:
