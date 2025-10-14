@@ -3,7 +3,7 @@
 
 class Player:
     def __init__(self, name):
-        self.name = name + "Player"
+        self.name = name + " Player"
         self.letter = ""
 
     def set_letter(self, letter_choice):
