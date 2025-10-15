@@ -13,16 +13,16 @@ class PlayerUI(QWidget):
         player_name = QLabel(player.name)
         player_name.setAlignment(Qt.AlignCenter)
 
-        letterS = QRadioButton("S")
-        letterS.setChecked(True)
-        letterO = QRadioButton("O")
+        letter_s = QRadioButton("S")
+        letter_s.setChecked(True)
+        letter_o = QRadioButton("O")
 
         player_layout = QVBoxLayout()
 
         player_layout.addWidget(player_name)
         player_layout.addSpacing(5)
-        player_layout.addWidget(letterS, alignment=Qt.AlignCenter)
-        player_layout.addWidget(letterO, alignment=Qt.AlignCenter)
+        player_layout.addWidget(letter_s, alignment=Qt.AlignCenter)
+        player_layout.addWidget(letter_o, alignment=Qt.AlignCenter)
 
         self.setLayout(player_layout)
 
