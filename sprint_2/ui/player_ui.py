@@ -20,7 +20,7 @@ class PlayerUI(QWidget):
         player_layout = QVBoxLayout()
 
         player_layout.addWidget(player_name)
-        player_layout.addSpacing(5)
+        # player_layout.addSpacing(5)
         player_layout.addWidget(letter_s, alignment=Qt.AlignCenter)
         player_layout.addWidget(letter_o, alignment=Qt.AlignCenter)
 

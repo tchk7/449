@@ -24,7 +24,7 @@ class GameUI(QWidget):
 
 
 
-        game_type_label = QLabel("Select Game Type")
+        game_type_label = QLabel("Game Mode:")
         simple_checkbox = QCheckBox("Simple Game")
         general_checkbox = QCheckBox("General Game")
 
@@ -57,10 +57,10 @@ class GameUI(QWidget):
         # grid.addLayout(mode_size_layout, 0, 1, 1, 2)
         grid.addLayout(board_size_layout, 0, 3, 1, 1)
         grid.addWidget(QWidget(), 0, 2, 1, 1)
-        grid.addWidget(blue_player_ui, 1, 0, 1, 1)
-        grid.addWidget(board_ui, 1, 2, 1, 1)
-        grid.addWidget(red_player_ui, 1, 4, 1, 1)
-        grid.addWidget(player_turn_label, 2, 0, 1, 5)
+        grid.addWidget(blue_player_ui, 2, 0, 1, 1)
+        grid.addWidget(board_ui, 1, 1, 3, 3)
+        grid.addWidget(red_player_ui, 2, 4, 1, 1)
+        grid.addWidget(player_turn_label, 4, 0, 1, 5)
 
         self.resize(500, 500)
 
