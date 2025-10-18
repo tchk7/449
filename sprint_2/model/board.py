@@ -5,17 +5,12 @@ class Board:
         if size < 3:
             size = 3
         self.size = size
-        self._create_grid()
+        self.grid = self._create_grid()
 
     def _create_grid(self):
         """Create an empty grid"""
-        self.grid = []
 
-        for row in range(self.size):
-            row = []
-            for col in range(self.size):
-                row.append("")
-            self.grid.append(row)
+        return [["" for _ in range(self.size)] for _ in range(self.size)]
 
     def is_empty(self, row, col):
         """Check if cell is empty"""
@@ -29,10 +24,18 @@ class Board:
                     return False
         return True
 
+    def validate_move(self, row, col):
+        """Check if a move is valid"""
+
+        return (0 <= row < self.size and
+                0 <= col < self.size and
+                self.is_empty(row, col)
+                )
+
     def put_letter(self, row, col, letter):
         """Place letter on board"""
 
-        if self.is_empty(row, col):
+        if self.validate_move(row, col):
             self.grid[row][col] = letter
             return True
         else:
@@ -41,17 +44,12 @@ class Board:
     def get_cell(self, row, col):
         """Return cell value"""
 
-        if self.is_empty(row, col):
-            return ""
-        else:
-            return self.grid[row][col]
+        return self.grid[row][col]
 
     def reset_board(self):
         """Reset board to empty"""
 
-        for row in range(self.size):
-            for col in range(self.size):
-                self.grid[row][col] = ""
+        self.grid = self._create_grid()
 
 
 

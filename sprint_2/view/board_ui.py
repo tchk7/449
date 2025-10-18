@@ -1,9 +1,7 @@
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPainter
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QLabel, QApplication, QPushButton
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QApplication, QPushButton
 import sys
 
-from sprint_2.board import Board
+from sprint_2.model.board import Board
 
 
 class BoardUI(QWidget):
@@ -40,15 +38,14 @@ class BoardUI(QWidget):
     #
     #     width = self.width()
     #     height = self.height()
-    #     size = self.board.size
     #
-    #     for col in range(1, size):
-    #         x = col * width / size
-    #         painter.drawLine(int(x), 0, int(x), height)
+    #     for col in range(1, self.cols):
+    #         x = colIndex * width / self.cols
+    #         painter.drawLine(int(xPosition), 0, int(xPosition), height)
     #
-    #     for row in range(1, size):
-    #         y = row * height / size
-    #         painter.drawLine(0, int(y), width, int(y))
+    #     for row in range(1, self.rows):
+    #         yPosition = rowIndex * height / self.rows
+    #         painter.drawLine(0, int(yPosition), width, int(yPosition))
 
 if __name__ == "__main__":
 

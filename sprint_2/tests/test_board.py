@@ -1,6 +1,4 @@
-
-import pytest
-from sprint_2.board import Board
+from sprint_2.model.board import Board
 
 def test_default_board():
     board = Board()

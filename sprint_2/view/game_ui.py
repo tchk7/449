@@ -1,12 +1,12 @@
 import sys
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication
 
-from sprint_2.board import Board
-from sprint_2.player import Player
-from sprint_2.ui.board_ui import BoardUI
-from sprint_2.ui.player_ui import PlayerUI
+from sprint_2.model.board import Board
+from sprint_2.model.player import Player
+from sprint_2.view.board_ui import BoardUI
+from sprint_2.view.player_ui import PlayerUI
 
 
 class GameUI(QWidget):

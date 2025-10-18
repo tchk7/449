@@ -1,6 +1,6 @@
 
-from sprint_2.player import Player
-from sprint_2.board import Board
+from sprint_2.model.player import Player
+from sprint_2.model.board import Board
 
 def test_player_letter_choice():
     blue = Player("Blue")
