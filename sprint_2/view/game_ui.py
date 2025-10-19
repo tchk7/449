@@ -3,6 +3,7 @@ import sys
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication
 
+from sprint_2.controller.game import Game
 from sprint_2.model.board import Board
 from sprint_2.model.player import Player
 from sprint_2.view.board_ui import BoardUI
@@ -16,7 +17,7 @@ class GameUI(QWidget):
         self.setWindowTitle("SOS Game")
 
         game_board = Board(8)
-        board_ui = BoardUI(game_board.size)
+        board_ui = BoardUI(game_board)
         blue_player = Player("Blue")
         blue_player_ui = PlayerUI(blue_player)
         red_player = Player("Red")
@@ -61,6 +62,8 @@ class GameUI(QWidget):
         grid.addWidget(board_ui, 1, 1, 3, 3)
         grid.addWidget(red_player_ui, 2, 4, 1, 1)
         grid.addWidget(player_turn_label, 4, 0, 1, 5)
+
+        self.controller = Game(self, board_ui, blue_player)
 
         self.resize(500, 500)
 

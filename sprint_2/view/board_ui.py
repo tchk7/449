@@ -5,11 +5,11 @@ from sprint_2.model.board import Board
 
 
 class BoardUI(QWidget):
-    def __init__(self, size = 3):
+    def __init__(self, board):
         super().__init__()
 
         self.setWindowTitle("SOS Game")
-        self.board = Board(size)
+        self.board = board
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
@@ -27,11 +27,21 @@ class BoardUI(QWidget):
                 button_row.append(btn)
             self.buttons.append(button_row)
 
-        # for rowIndex in range(self.board.size):
-        #     for colIndex in range(self.board.size):
-        #         cell = QLabel(f"[{rowIndex + 1}, {colIndex + 1}]")
-        #         cell.setAlignment(Qt.AlignCenter)
-        #         self.grid_layout.addWidget(cell, rowIndex, colIndex)
+
+
+    def get_buttons(self):
+        return self.buttons
+
+    def get_board(self):
+        return self.board
+
+
+
+    # for rowIndex in range(self.board.size):
+    #     for colIndex in range(self.board.size):
+    #         cell = QLabel(f"[{rowIndex + 1}, {colIndex + 1}]")
+    #         cell.setAlignment(Qt.AlignCenter)
+    #         self.grid_layout.addWidget(cell, rowIndex, colIndex)
 
     # def paintEvent(self, event):
     #     painter = QPainter(self)
@@ -49,8 +59,10 @@ class BoardUI(QWidget):
 
 if __name__ == "__main__":
 
+    board = Board()
+
     app = QApplication(sys.argv)
-    window = BoardUI()
+    window = BoardUI(board)
     window.show()
     sys.exit(app.exec())
 

@@ -12,8 +12,3 @@ class Player:
         else:
             raise ValueError("Letter must be an 'S' or 'O'")
 
-
-    def make_move(self, board, row, col):
-
-        board.put_letter(row, col, self.letter)
-

@@ -13,18 +13,30 @@ class PlayerUI(QWidget):
         player_name = QLabel(player.name)
         player_name.setAlignment(Qt.AlignCenter)
 
-        letter_s = QRadioButton("S")
-        letter_s.setChecked(True)
-        letter_o = QRadioButton("O")
+        self.letter_s = QRadioButton("S")
+        self.letter_s.setChecked(True)
+        self.letter_o = QRadioButton("O")
 
         player_layout = QVBoxLayout()
 
         player_layout.addWidget(player_name)
         # player_layout.addSpacing(5)
-        player_layout.addWidget(letter_s, alignment=Qt.AlignCenter)
-        player_layout.addWidget(letter_o, alignment=Qt.AlignCenter)
+        player_layout.addWidget(self.letter_s, alignment=Qt.AlignCenter)
+        player_layout.addWidget(self.letter_o, alignment=Qt.AlignCenter)
 
         self.setLayout(player_layout)
+
+    def get_selected_letter(self):
+        """Get letter player wants to play"""
+
+        if self.letter_s.isChecked():
+            return "S"
+        elif self.letter_o.isChecked():
+            return "O"
+        return None
+
+    def get_player(self):
+        return self.player
 
 
 
