@@ -1,7 +1,9 @@
 import sys
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication
+from PySide6.QtGui import QIntValidator
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication, \
+    QRadioButton
 
 from sprint_2.controller.game import Game
 from sprint_2.model.board import Board
@@ -16,7 +18,7 @@ class GameUI(QWidget):
         super().__init__()
         self.setWindowTitle("SOS Game")
 
-        self.game_board = Board(8)
+        self.game_board = Board()
         self.board_ui = BoardUI(self.game_board)
         self.blue_player = Player("Blue")
         self.blue_player_ui = PlayerUI(self.blue_player)
@@ -26,8 +28,9 @@ class GameUI(QWidget):
 
 
         game_type_label = QLabel("Game Mode:")
-        simple_checkbox = QCheckBox("Simple Game")
-        general_checkbox = QCheckBox("General Game")
+        simple_checkbox = QRadioButton("Simple Game")
+        simple_checkbox.setChecked(True)
+        general_checkbox = QRadioButton("General Game")
 
         checkbox_layout = QHBoxLayout()
         # checkbox_layout.addWidget(game_type_label)
@@ -40,28 +43,31 @@ class GameUI(QWidget):
         # mode_size_layout.addLayout(checkbox_layout)
 
         board_size_label = QLabel("Board Size")
-        board_size_text_box = QLineEdit()
+        self.board_size_text_box = QLineEdit()
+        self.board_size_text_box.setValidator(QIntValidator(3, 12))  # Only allows 3–15
+        self.board_size_text_box.setPlaceholderText("Choose 3 to 12")
+        self.board_size_text_box.returnPressed.connect(self.set_board_size)
 
         board_size_layout = QHBoxLayout()
         board_size_layout.addWidget(board_size_label)
-        board_size_layout.addWidget(board_size_text_box)
+        board_size_layout.addWidget(self.board_size_text_box)
 
 
         self.player_turn_label = QLabel(f"{self.blue_player.name}'s Turn", alignment=Qt.AlignCenter)
 
-        grid = QGridLayout()
-        self.setLayout(grid)
+        self.grid = QGridLayout()
+        self.setLayout(self.grid)
 
-        grid.addWidget(game_type_label, 0, 0, 1, 1)
-        grid.addWidget(simple_checkbox, 0, 1, 1, 1)
-        grid.addWidget(general_checkbox, 0, 2, 1, 1)
-        # grid.addLayout(mode_size_layout, 0, 1, 1, 2)
-        grid.addLayout(board_size_layout, 0, 3, 1, 1)
-        grid.addWidget(QWidget(), 0, 2, 1, 1)
-        grid.addWidget(self.blue_player_ui, 2, 0, 1, 1)
-        grid.addWidget(self.board_ui, 1, 1, 3, 3)
-        grid.addWidget(self.red_player_ui, 2, 4, 1, 1)
-        grid.addWidget(self.player_turn_label, 4, 0, 1, 5)
+        self.grid.addWidget(game_type_label, 0, 0, 1, 1)
+        self.grid.addWidget(simple_checkbox, 0, 1, 1, 1)
+        self.grid.addWidget(general_checkbox, 0, 2, 1, 1)
+        # self.grid.addLayout(mode_size_layout, 0, 1, 1, 2)
+        self.grid.addLayout(board_size_layout, 0, 3, 1, 1)
+        self.grid.addWidget(QWidget(), 0, 2, 1, 1)
+        self.grid.addWidget(self.blue_player_ui, 2, 0, 1, 1)
+        self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
+        self.grid.addWidget(self.red_player_ui, 2, 4, 1, 1)
+        self.grid.addWidget(self.player_turn_label, 4, 0, 1, 5)
 
         self.controller = Game(self)
 
@@ -72,6 +78,22 @@ class GameUI(QWidget):
 
     def get_board_ui(self):
         return self.board_ui
+
+    def set_board_size(self):
+        text = self.board_size_text_box.text()
+        if not text.isnumeric():
+            return
+
+        size = int(text)
+
+        self.grid.removeWidget(self.board_ui)
+        self.board_ui.deleteLater()
+
+        self.game_board = Board(size)
+        self.board_ui = BoardUI(self.game_board)
+        self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
+
+        self.controller = Game(self)
 
 
 if __name__ == "__main__":
