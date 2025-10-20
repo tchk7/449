@@ -47,7 +47,7 @@ class GameUI(QWidget):
         board_size_layout.addWidget(board_size_text_box)
 
 
-        player_turn_label = QLabel(f"{self.blue_player.name}'s Turn", alignment=Qt.AlignCenter)
+        self.player_turn_label = QLabel(f"{self.blue_player.name}'s Turn", alignment=Qt.AlignCenter)
 
         grid = QGridLayout()
         self.setLayout(grid)
@@ -61,7 +61,7 @@ class GameUI(QWidget):
         grid.addWidget(self.blue_player_ui, 2, 0, 1, 1)
         grid.addWidget(self.board_ui, 1, 1, 3, 3)
         grid.addWidget(self.red_player_ui, 2, 4, 1, 1)
-        grid.addWidget(player_turn_label, 4, 0, 1, 5)
+        grid.addWidget(self.player_turn_label, 4, 0, 1, 5)
 
         self.controller = Game(self)
 
