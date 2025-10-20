@@ -2,10 +2,10 @@ from functools import partial
 
 
 class Game():
-    def __init__(self, game_ui, board_ui, player_ui):
+    def __init__(self, game_ui):
         self.game_ui = game_ui
-        self.board_ui = board_ui
-        self.player_ui = player_ui
+        self.board_ui = self.game_ui.get_board_ui()
+        self.player_ui = self.game_ui.get_player_uis()
 
 
 

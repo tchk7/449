@@ -16,12 +16,12 @@ class GameUI(QWidget):
         super().__init__()
         self.setWindowTitle("SOS Game")
 
-        game_board = Board(8)
-        board_ui = BoardUI(game_board)
-        blue_player = Player("Blue")
-        blue_player_ui = PlayerUI(blue_player)
-        red_player = Player("Red")
-        red_player_ui = PlayerUI(red_player)
+        self.game_board = Board(8)
+        self.board_ui = BoardUI(self.game_board)
+        self.blue_player = Player("Blue")
+        self.blue_player_ui = PlayerUI(self.blue_player)
+        self.red_player = Player("Red")
+        self.red_player_ui = PlayerUI(self.red_player)
 
 
 
@@ -47,7 +47,7 @@ class GameUI(QWidget):
         board_size_layout.addWidget(board_size_text_box)
 
 
-        player_turn_label = QLabel(f"{blue_player.name}'s Turn", alignment=Qt.AlignCenter)
+        player_turn_label = QLabel(f"{self.blue_player.name}'s Turn", alignment=Qt.AlignCenter)
 
         grid = QGridLayout()
         self.setLayout(grid)
@@ -58,14 +58,20 @@ class GameUI(QWidget):
         # grid.addLayout(mode_size_layout, 0, 1, 1, 2)
         grid.addLayout(board_size_layout, 0, 3, 1, 1)
         grid.addWidget(QWidget(), 0, 2, 1, 1)
-        grid.addWidget(blue_player_ui, 2, 0, 1, 1)
-        grid.addWidget(board_ui, 1, 1, 3, 3)
-        grid.addWidget(red_player_ui, 2, 4, 1, 1)
+        grid.addWidget(self.blue_player_ui, 2, 0, 1, 1)
+        grid.addWidget(self.board_ui, 1, 1, 3, 3)
+        grid.addWidget(self.red_player_ui, 2, 4, 1, 1)
         grid.addWidget(player_turn_label, 4, 0, 1, 5)
 
-        self.controller = Game(self, board_ui, blue_player)
+        self.controller = Game(self)
 
         self.resize(500, 500)
+
+    def get_player_uis(self):
+        return [self.blue_player_ui, self.red_player_ui]
+
+    def get_board_ui(self):
+        return self.board_ui
 
 
 if __name__ == "__main__":
