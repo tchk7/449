@@ -47,7 +47,7 @@ class GameUI(QWidget):
         self.board_size_text_box = QLineEdit()
         self.board_size_text_box.setValidator(QIntValidator(3, 12))  # Only allows 3–15
         self.board_size_text_box.setPlaceholderText("Choose 3 to 12")
-        self.board_size_text_box.returnPressed.connect(self.set_board_size)
+        # self.board_size_text_box.returnPressed.connect(self.set_board_size)
 
         board_size_layout = QHBoxLayout()
         board_size_layout.addWidget(board_size_label)
@@ -82,14 +82,14 @@ class GameUI(QWidget):
     def get_board_ui(self):
         return self.board_ui
 
-    def set_board_size(self):
-        text = self.board_size_text_box.text()
-        if not text.isnumeric():
-            return
-
-        size = int(text)
-
-        self.controller.board_change(size)
+    # def set_board_size(self):
+    #     text = self.board_size_text_box.text()
+    #     if not text.isnumeric():
+    #         return
+    #
+    #     size = int(text)
+    #
+    #     self.controller.board_change(size)
 
     def build_board_ui(self, board):
 

@@ -13,6 +13,11 @@ class Game():
         self.buttons = []
         self.connect_buttons()
 
+        self.game_mode = "Simple"
+
+        self.game_ui.simple_radio.toggled.connect(self.update_game_mode)
+        self.game_ui.general_radio.toggled.connect(self.update_game_mode)
+
         # self.buttons = self.board_ui.get_buttons()
         #
         # for row_index, row in enumerate(self.buttons):
@@ -27,14 +32,14 @@ class Game():
             for col_index, btn in enumerate(row):
                 btn.clicked.connect(partial(self.handle_click, row_index, col_index))
 
-    def board_change(self, size):
-        new_board = Board(size)
-
-        self.board_ui = self.game_ui.build_board_ui(new_board)
-
-        self.connect_buttons()
-
-        self.start_new_game()
+    # def board_change(self, size):
+    #     new_board = Board(size)
+    #
+    #     self.board_ui = self.game_ui.build_board_ui(new_board)
+    #
+    #     self.connect_buttons()
+    #
+    #     self.start_new_game()
 
 
     def handle_click(self, row, col):
@@ -57,7 +62,25 @@ class Game():
         self.game_ui.player_turn_label.setText(f"{next_player.get_player().name}'s Turn")
 
     def start_new_game(self):
-        self.board_ui.get_board().reset_board()
+
+        text = self.game_ui.board_size_text_box.text()
+        if text.isnumeric():
+            size = int(text)
+        else:
+            size = 3
+
+        current_size = self.board_ui.get_board().size
+
+        if size != current_size:
+
+            board = Board(size)
+
+            self.board_ui = self.game_ui.build_board_ui(board)
+
+            self.connect_buttons()
+        else:
+            self.board_ui.get_board().reset_board()
+
 
         for row in self.buttons:
             for btn in row:
@@ -68,3 +91,9 @@ class Game():
         next_player = self.player_uis[self.current_player]
 
         self.game_ui.player_turn_label.setText(f"{next_player.get_player().name}'s Turn")
+
+    def update_game_mode(self):
+        if self.game_ui.simple_radio.isChecked():
+            self.game_mode = "Simple"
+        elif self.game_ui.general_radio.isChecked():
+            self.game_mode = "General"
