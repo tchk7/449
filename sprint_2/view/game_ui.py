@@ -27,19 +27,20 @@ class GameUI(QWidget):
 
         self.new_game = QPushButton("New Game")
 
-        game_type_label = QLabel("Game Mode:")
-        simple_checkbox = QRadioButton("Simple Game")
-        simple_checkbox.setChecked(True)
-        general_checkbox = QRadioButton("General Game")
+        self.game_type_label = QLabel("Game Mode:")
+        self.simple_radio = QRadioButton("Simple Game")
+        self.simple_radio.setChecked(True)
+        self.general_radio = QRadioButton("General Game")
 
-        checkbox_layout = QHBoxLayout()
+        radio_layout = QHBoxLayout()
         # checkbox_layout.addWidget(game_type_label)
-        checkbox_layout.addWidget(simple_checkbox)
-        checkbox_layout.addWidget(general_checkbox)
+        radio_layout.addWidget(self.game_type_label)
+        radio_layout.addWidget(self.simple_radio)
+        radio_layout.addWidget(self.general_radio)
 
 
         # mode_size_layout = QVBoxLayout()
-        # # mode_size_layout.addWidget(game_type_label, alignment=Qt.AlignCenter)
+        # mode_size_layout.addWidget(game_type_label, alignment=Qt.AlignCenter)
         # mode_size_layout.addLayout(checkbox_layout)
 
         board_size_label = QLabel("Board Size")
@@ -58,9 +59,10 @@ class GameUI(QWidget):
         self.grid = QGridLayout()
         self.setLayout(self.grid)
 
-        self.grid.addWidget(game_type_label, 0, 0, 1, 1)
-        self.grid.addWidget(simple_checkbox, 0, 1, 1, 1)
-        self.grid.addWidget(general_checkbox, 0, 2, 1, 1)
+        self.grid.addLayout(radio_layout, 0, 0, 1, 2)
+        # self.grid.addWidget(self.game_type_label, 0, 0, 1, 1)
+        # self.grid.addWidget(self.simple_radio, 0, 1, 1, 1)
+        # self.grid.addWidget(self.general_radio, 0, 2, 1, 1)
         # self.grid.addLayout(mode_size_layout, 0, 1, 1, 2)
         self.grid.addLayout(board_size_layout, 0, 3, 1, 1)
         self.grid.addWidget(QWidget(), 0, 2, 1, 1)
