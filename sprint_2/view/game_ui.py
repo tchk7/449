@@ -3,7 +3,7 @@ import sys
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIntValidator
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication, \
-    QRadioButton
+    QRadioButton, QPushButton
 
 from sprint_2.controller.game import Game
 from sprint_2.model.board import Board
@@ -25,7 +25,7 @@ class GameUI(QWidget):
         self.red_player = Player("Red")
         self.red_player_ui = PlayerUI(self.red_player)
 
-
+        self.new_game = QPushButton("New Game")
 
         game_type_label = QLabel("Game Mode:")
         simple_checkbox = QRadioButton("Simple Game")
@@ -68,10 +68,11 @@ class GameUI(QWidget):
         self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
         self.grid.addWidget(self.red_player_ui, 2, 4, 1, 1)
         self.grid.addWidget(self.player_turn_label, 4, 0, 1, 5)
-
-        self.controller = Game(self)
+        self.grid.addWidget(self.new_game, 0, 4, 1, 1)
 
         self.resize(500, 500)
+
+        self.controller = Game(self)
 
     def get_player_uis(self):
         return [self.blue_player_ui, self.red_player_ui]
@@ -86,14 +87,22 @@ class GameUI(QWidget):
 
         size = int(text)
 
+        self.controller.board_change(size)
+
+    def build_board_ui(self, board):
+
         self.grid.removeWidget(self.board_ui)
+
         self.board_ui.deleteLater()
 
-        self.game_board = Board(size)
+        self.game_board = board
         self.board_ui = BoardUI(self.game_board)
         self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
 
-        self.controller = Game(self)
+        return self.board_ui
+
+    # def get_new_game_button(self):
+    #     return self.new_game
 
 
 if __name__ == "__main__":
