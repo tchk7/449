@@ -18,12 +18,6 @@ class Game():
         self.game_ui.simple_radio.toggled.connect(self.update_game_mode)
         self.game_ui.general_radio.toggled.connect(self.update_game_mode)
 
-        # self.buttons = self.board_ui.get_buttons()
-        #
-        # for row_index, row in enumerate(self.buttons):
-        #     for col_index, btn in enumerate(row):
-        #         btn.clicked.connect(partial(self.handle_click, row_index, col_index))
-        #
         self.game_ui.new_game.clicked.connect(self.start_new_game)
 
     def connect_buttons(self):
@@ -31,16 +25,6 @@ class Game():
         for row_index, row in enumerate(self.buttons):
             for col_index, btn in enumerate(row):
                 btn.clicked.connect(partial(self.handle_click, row_index, col_index))
-
-    # def board_change(self, size):
-    #     new_board = Board(size)
-    #
-    #     self.board_ui = self.game_ui.build_board_ui(new_board)
-    #
-    #     self.connect_buttons()
-    #
-    #     self.start_new_game()
-
 
     def handle_click(self, row, col):
         board = self.board_ui.get_board()

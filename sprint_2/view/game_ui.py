@@ -33,21 +33,14 @@ class GameUI(QWidget):
         self.general_radio = QRadioButton("General Game")
 
         radio_layout = QHBoxLayout()
-        # checkbox_layout.addWidget(game_type_label)
         radio_layout.addWidget(self.game_type_label)
         radio_layout.addWidget(self.simple_radio)
         radio_layout.addWidget(self.general_radio)
 
-
-        # mode_size_layout = QVBoxLayout()
-        # mode_size_layout.addWidget(game_type_label, alignment=Qt.AlignCenter)
-        # mode_size_layout.addLayout(checkbox_layout)
-
         board_size_label = QLabel("Board Size")
         self.board_size_text_box = QLineEdit()
-        self.board_size_text_box.setValidator(QIntValidator(3, 12))  # Only allows 3–15
+        self.board_size_text_box.setValidator(QIntValidator(3, 12))
         self.board_size_text_box.setPlaceholderText("Choose 3 to 12")
-        # self.board_size_text_box.returnPressed.connect(self.set_board_size)
 
         board_size_layout = QHBoxLayout()
         board_size_layout.addWidget(board_size_label)
@@ -60,10 +53,6 @@ class GameUI(QWidget):
         self.setLayout(self.grid)
 
         self.grid.addLayout(radio_layout, 0, 0, 1, 2)
-        # self.grid.addWidget(self.game_type_label, 0, 0, 1, 1)
-        # self.grid.addWidget(self.simple_radio, 0, 1, 1, 1)
-        # self.grid.addWidget(self.general_radio, 0, 2, 1, 1)
-        # self.grid.addLayout(mode_size_layout, 0, 1, 1, 2)
         self.grid.addLayout(board_size_layout, 0, 3, 1, 1)
         self.grid.addWidget(QWidget(), 0, 2, 1, 1)
         self.grid.addWidget(self.blue_player_ui, 2, 0, 1, 1)
@@ -82,15 +71,6 @@ class GameUI(QWidget):
     def get_board_ui(self):
         return self.board_ui
 
-    # def set_board_size(self):
-    #     text = self.board_size_text_box.text()
-    #     if not text.isnumeric():
-    #         return
-    #
-    #     size = int(text)
-    #
-    #     self.controller.board_change(size)
-
     def build_board_ui(self, board):
 
         self.grid.removeWidget(self.board_ui)
@@ -102,9 +82,6 @@ class GameUI(QWidget):
         self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
 
         return self.board_ui
-
-    # def get_new_game_button(self):
-    #     return self.new_game
 
 
 if __name__ == "__main__":

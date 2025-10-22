@@ -37,12 +37,3 @@ class PlayerUI(QWidget):
 
     def get_player(self):
         return self.player
-
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    player = Player("Blue")
-    window = PlayerUI(player)
-    window.show()
-    sys.exit(app.exec())

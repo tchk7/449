@@ -35,34 +35,3 @@ class BoardUI(QWidget):
     def get_board(self):
         return self.board
 
-
-
-    # for rowIndex in range(self.board.size):
-    #     for colIndex in range(self.board.size):
-    #         cell = QLabel(f"[{rowIndex + 1}, {colIndex + 1}]")
-    #         cell.setAlignment(Qt.AlignCenter)
-    #         self.grid_layout.addWidget(cell, rowIndex, colIndex)
-
-    # def paintEvent(self, event):
-    #     painter = QPainter(self)
-    #
-    #     width = self.width()
-    #     height = self.height()
-    #
-    #     for col in range(1, self.cols):
-    #         x = colIndex * width / self.cols
-    #         painter.drawLine(int(xPosition), 0, int(xPosition), height)
-    #
-    #     for row in range(1, self.rows):
-    #         yPosition = rowIndex * height / self.rows
-    #         painter.drawLine(0, int(yPosition), width, int(yPosition))
-
-if __name__ == "__main__":
-
-    board = Board()
-
-    app = QApplication(sys.argv)
-    window = BoardUI(board)
-    window.show()
-    sys.exit(app.exec())
-

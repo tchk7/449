@@ -2,7 +2,7 @@
 
 class Board:
     def __init__(self, size = 3):
-        if size < 3:
+        if size < 3 or size > 12:
             size = 3
         self.size = size
         self.grid = self._create_grid()
