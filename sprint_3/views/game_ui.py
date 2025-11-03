@@ -5,11 +5,11 @@ from PySide6.QtGui import QIntValidator
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication, \
     QRadioButton, QPushButton, QMessageBox
 
-from sprint_2.controller.game import Game
-from sprint_2.model.board import Board
-from sprint_2.model.player import Player
-from sprint_2.view.board_ui import BoardUI
-from sprint_2.view.player_ui import PlayerUI
+from sprint_3.controllers.game import Game
+from sprint_3.models.board import Board
+from sprint_3.models.player import Player
+from sprint_3.views.board_ui import BoardUI
+from sprint_3.views.player_ui import PlayerUI
 
 
 class GameUI(QWidget):
@@ -86,11 +86,14 @@ class GameUI(QWidget):
     def show_winner_message(self, message):
         QMessageBox.information(self, "Game Over", message)
 
-    def winner_message(self):
-        QMessageBox.information(self, "Game Over", "We have a winner.")
-
-    def draw_message(self):
+    def show_draw_message(self):
         QMessageBox.information(self, "Game Over", "We have a draw.")
+
+    def disable_board(self):
+        self.board_ui.setEnabled(False)
+
+    def enable_board(self):
+        self.board_ui.setEnabled(True)
 
 
 

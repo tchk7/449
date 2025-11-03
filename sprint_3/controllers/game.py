@@ -1,6 +1,6 @@
 from functools import partial
 
-from sprint_2.model.board import Board
+from sprint_3.models.board import Board
 from sprint_3.models.general_game import GeneralGame
 from sprint_3.models.simple_game import SimpleGame
 
@@ -52,20 +52,29 @@ class Game():
         if status == "WIN":
             winner = self.players[self.current_player].name
             self.game_ui.show_winner_message(f"{winner} wins.")
+            self.game_ui.disable_board()
 
         elif status == "DRAW":
-            self.game_ui.draw_message()
+            self.game_ui.show_draw_message()
+            self.game_ui.disable_board()
 
-        elif status == "Score":
+        elif status == "SCORE":
+            current_player_ui = self.player_uis[self.current_player]
+            current_player_now = self.players[self.current_player]
+            current_player_ui.update_score(current_player_now.score)
+
             switch_player = False
             self.game_ui.player_turn_label.setText(f"{self.players[self.current_player].name} scores. Go again.")
 
-        elif status == "Continue":
+        elif status == "CONTINUE":
             switch_player = True
 
         elif status == "We have a winner.":
             player_1_score = self.players[0].score
             player_2_score = self.players[1].score
+
+            self.player_uis[0].update_score(player_1_score)
+            self.player_uis[1].update_score(player_2_score)
 
             if player_1_score > player_2_score:
                 winner = self.players[0].name
@@ -73,16 +82,18 @@ class Game():
                 winner = self.players[1].name
 
             self.game_ui.show_winner_message(f"{winner} wins with {max(player_1_score, player_2_score)} points.")
+            self.game_ui.disable_board()
 
         elif status == "We have a draw.":
-            self.game_ui.draw_message()
+            self.game_ui.show_draw_message()
+            self.game_ui.disable_board()
 
         if switch_player and not self.game_type.game_over:
             self.current_player = 1 - self.current_player
 
         if not self.game_type.game_over:
             next_player = self.players[self.current_player]
-            self.game_ui.player_turn_label.setText(f"{next_player.get_player().name}'s Turn")
+            self.game_ui.player_turn_label.setText(f"{next_player.name}'s Turn")
 
 
     def start_new_game(self):
@@ -101,6 +112,9 @@ class Game():
         for player in self.players:
             player.score = 0
 
+        self.player_uis[0].update_score(0)
+        self.player_uis[1].update_score(0)
+
         self.current_player = 0
 
         if self.game_mode == "Simple":
@@ -108,7 +122,7 @@ class Game():
         else:
             self.game_type = GeneralGame(board, self.players)
 
-        self.game_ui.player_turn_label.setText(f"{self.players[0].get_player().name}'s Turn")
+        self.game_ui.player_turn_label.setText(f"{self.players[0].name}'s Turn")
 
     def update_game_mode(self):
         if self.game_ui.simple_radio.isChecked():

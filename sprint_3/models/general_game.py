@@ -17,12 +17,12 @@ class GeneralGame(BaseGame):
             if self.board.is_full():
                 return self._check_winner()
 
-            return "Score"
+            return "SCORE"
 
         if self.board.is_full():
             return self._check_winner()
 
-        return "Continue"
+        return "CONTINUE"
 
     def _check_winner(self):
 

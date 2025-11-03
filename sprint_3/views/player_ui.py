@@ -23,9 +23,9 @@ class PlayerUI(QWidget):
         player_layout = QVBoxLayout()
 
         player_layout.addWidget(player_name)
-        player_layout.addWidget(self.score)
         player_layout.addWidget(self.letter_s, alignment=Qt.AlignCenter)
         player_layout.addWidget(self.letter_o, alignment=Qt.AlignCenter)
+        player_layout.addWidget(self.score)
 
         self.setLayout(player_layout)
 
@@ -40,3 +40,6 @@ class PlayerUI(QWidget):
 
     def get_player(self):
         return self.player
+
+    def update_score(self, score):
+        self.score.setText(f"Score: {score}")
