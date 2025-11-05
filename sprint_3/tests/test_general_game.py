@@ -28,7 +28,7 @@ def test_general_game_score(general_game):
 
     result = game.handle_move(0, 2, 0)
 
-    assert result == "Score"
+    assert result == "SCORE"
     assert game.game_over == False
     assert game.players[0].score == 1
     assert game.players[1].score == 0
@@ -45,7 +45,7 @@ def test_general_game_score_multiple(general_game):
 
     result = game.handle_move(1, 1, 1)
 
-    assert result == "Score"
+    assert result == "SCORE"
     assert game.game_over == False
     assert game.players[0].score == 0
     assert game.players[1].score == 2
@@ -59,7 +59,7 @@ def test_general_game_continue(general_game):
 
     result = game.handle_move(0, 2, 0)
 
-    assert result == "Continue"
+    assert result == "CONTINUE"
     assert game.game_over == False
     assert game.players[0].score == 0
     assert game.players[1].score == 0
