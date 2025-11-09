@@ -16,7 +16,7 @@ class BoardUI(QWidget):
         self.buttons = []
         for row in range(self.board.get_size()):
             button_row = []
-            for col in range(self.board.size):
+            for col in range(self.board.get_size()):
                 btn = QPushButton("")
                 btn.setFixedSize(60, 60)
                 self.grid_layout.addWidget(btn, row, col)

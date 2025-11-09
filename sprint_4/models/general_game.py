@@ -1,18 +1,21 @@
-from sprint_3.models.base_game import BaseGame
+from sprint_4.models.base_game import BaseGame
 
 
 class GeneralGame(BaseGame):
     def __init__(self, board, players):
         super().__init__(board, players)
 
-    def handle_move(self, row, col, player):
+    def handle_move(self, row, col, letter, player):
 
-        letter = self.board.get_cell(row, col)
+        self.board.put_letter(row, col, letter)
 
         count = self.check_sos(row, col, letter)
 
         if count > 0:
-            self.players[player].add_to_score(count)
+            moving_player = self.get_player(player)
+
+            if moving_player:
+                moving_player.add_to_score(count)
 
             if self.board.is_full():
                 return self._check_winner()
@@ -28,9 +31,9 @@ class GeneralGame(BaseGame):
 
         self.game_over = True
 
-        if self.players[0].get_score() > self.players[1].get_score():
+        if self.get_player(0).get_score() > self.get_player(1).get_score():
             return "We have a winner."
-        elif self.players[1].get_score() > self.players[0].get_score():
+        elif self.get_player(1).get_score() > self.get_player(0).get_score():
             return "We have a winner."
         else:
             return "We have a draw."

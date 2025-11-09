@@ -1,20 +1,20 @@
-from sprint_3.models.board import Board
+from sprint_4.models.board import Board
 
 
 def test_default_board():
     board = Board()
-    assert board.size == 3
+    assert board.get_size() == 3
 
 def test_initial_board():
     board = Board(size= 3)
-    assert board.size == 3
-    for row in range(board.size):
-        for col in range(board.size):
+    assert board.get_size() == 3
+    for row in range(board.get_size()):
+        for col in range(board.get_size()):
             assert board.get_cell(row, col) == ""
 
 def test_minimum_board_size():
     board = Board(size=2)
-    assert board.size == 3
+    assert board.get_size() == 3
 
 
 def test_put_letter():
@@ -35,15 +35,15 @@ def test_full_board():
     board = Board(3)
     assert board.is_full() == False
 
-    for row in range(board.size):
-        for col in range(board.size):
+    for row in range(board.get_size()):
+        for col in range(board.get_size()):
             board.put_letter(row, col, "S")
     assert board.is_full() == True
 
 def test_reset_board():
     board = Board(3)
-    for row in range(board.size):
-        for col in range(board.size):
+    for row in range(board.get_size()):
+        for col in range(board.get_size()):
             board.put_letter(row, col, "S")
     assert not board.is_empty(0, 0)
     assert board.is_full() == True

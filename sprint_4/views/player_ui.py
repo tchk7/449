@@ -2,7 +2,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QApplication, QRadioButton
 import sys
 
-from sprint_3.models.player import Player
+from sprint_4.models.player import Player
 
 class PlayerUI(QWidget):
     def __init__(self, player):

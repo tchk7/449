@@ -1,8 +1,8 @@
 from functools import partial
 
-from sprint_3.models.board import Board
-from sprint_3.models.general_game import GeneralGame
-from sprint_3.models.simple_game import SimpleGame
+from sprint_4.models.board import Board
+from sprint_4.models.general_game import GeneralGame
+from sprint_4.models.simple_game import SimpleGame
 
 
 class Game():
@@ -42,10 +42,9 @@ class Game():
 
         letter = player_ui.get_selected_letter()
 
-        board.put_letter(row, col, letter)
         self.buttons[row][col].setText(letter)
 
-        status = self.game_type.handle_move(row, col, self.current_player)
+        status = self.game_type.handle_move(row, col, letter, self.current_player)
 
         switch_player = False
 

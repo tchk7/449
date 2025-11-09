@@ -7,7 +7,7 @@ class Player:
         return self._score
 
     def add_to_score(self, points):
-        return self._score + points
+         self._score += points
 
     def set_score(self, score):
         self._score = score

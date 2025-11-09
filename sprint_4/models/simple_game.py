@@ -1,17 +1,21 @@
-from sprint_3.models.base_game import BaseGame
+from sprint_4.models.base_game import BaseGame
 
 
 class SimpleGame(BaseGame):
     def __init__(self, board, players):
         super().__init__(board, players)
 
-    def handle_move(self, row, col, player):
+    def handle_move(self, row, col, letter, player):
 
-        letter = self.board.get_cell(row, col)
+        self.board.put_letter(row, col, letter)
 
         if self.check_sos(row, col, letter) > 0:
             self.game_over = True
-            self.players[player].set_score(1)
+            moving_player = self.get_player(player)
+
+            if moving_player:
+                moving_player.set_score(1)
+
             return "WIN"
 
         if self.board.is_full():

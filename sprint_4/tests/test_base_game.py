@@ -2,8 +2,8 @@ from itertools import count
 
 import pytest
 
-from sprint_3.models.base_game import BaseGame
-from sprint_3.models.board import Board
+from sprint_4.models.base_game import BaseGame
+from sprint_4.models.board import Board
 
 
 @pytest.fixture
@@ -33,7 +33,7 @@ def game_board():
 
 def test_is_valid(game_board, row, col, expected):
 
-    size = game_board.board.size
+    size = game_board.board.get_size()
     assert game_board._is_valid(row, col, size) == expected
 
 @pytest.mark.parametrize(
@@ -50,21 +50,23 @@ def test_is_valid(game_board, row, col, expected):
 def test_check_sos_o(game_board, positions, row_col, expected):
 
     for row, col, letter in positions:
-        game_board.board.grid[row][col] = letter
+        game_board.board.put_letter(row, col, letter)
 
     row, col = row_col
 
+    game_board.board.put_letter(row, col, 'O')
     count = game_board.check_sos(row, col, 'O')
 
     assert count == expected
 
 def test_check_sos_o_multiple(game_board):
 
-    game_board.board.grid[2][1] = 'S'
-    game_board.board.grid[2][3] = 'S'
-    game_board.board.grid[1][2] = 'S'
-    game_board.board.grid[3][2] = 'S'
+    game_board.board.put_letter(2, 1, 'S')
+    game_board.board.put_letter(2, 3, 'S')
+    game_board.board.put_letter(1, 2, 'S')
+    game_board.board.put_letter(3, 2, 'S')
 
+    game_board.board.put_letter(2, 2, 'O')
     count = game_board.check_sos(2, 2, 'O')
 
     assert count == 2
@@ -81,21 +83,23 @@ def test_check_sos_o_multiple(game_board):
 )
 def test_check_sos_s(game_board, positions, row_col, expected):
     for row, col, letter in positions:
-        game_board.board.grid[row][col] = letter
+        game_board.board.put_letter(row, col, letter)
 
     row, col = row_col
 
+    game_board.board.put_letter(row, col, 'S')
     count = game_board.check_sos(row, col, 'S')
 
     assert count == expected
 
 def test_check_sos_s_multiple(game_board):
 
-    game_board.board.grid[1][1] = 'S'
-    game_board.board.grid[1][2] = 'O'
-    game_board.board.grid[2][2] = 'O'
-    game_board.board.grid[3][1] = 'S'
+    game_board.board.put_letter(1, 1, 'S')
+    game_board.board.put_letter(1, 2, 'O')
+    game_board.board.put_letter(2, 2, 'O')
+    game_board.board.put_letter(3, 1, 'S')
 
+    game_board.board.put_letter(1, 3, 'S')
     count = game_board.check_sos(1, 3, 'S')
 
     assert count == 2

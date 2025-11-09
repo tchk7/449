@@ -1,7 +1,7 @@
 class BaseGame:
     def __init__(self, board, players):
         self.board = board
-        self.players = players
+        self._players = players
         self.game_over = False
 
     def _is_valid(self ,row, col, size):
@@ -42,5 +42,12 @@ class BaseGame:
 
         return count
 
-    def handle_move(self, row, col, player):
+    def handle_move(self, row, col, letter, player):
         return
+
+    def get_player(self, index):
+
+        if 0 <= index < len(self._players):
+            return self._players[index]
+        else:
+            return None

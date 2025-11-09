@@ -5,11 +5,11 @@ from PySide6.QtGui import QIntValidator
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication, \
     QRadioButton, QPushButton, QMessageBox
 
-from sprint_3.controllers.game import Game
-from sprint_3.models.board import Board
-from sprint_3.models.player import Player
-from sprint_3.views.board_ui import BoardUI
-from sprint_3.views.player_ui import PlayerUI
+from sprint_4.controllers.game import Game
+from sprint_4.models.board import Board
+from sprint_4.models.player import Player
+from sprint_4.views.board_ui import BoardUI
+from sprint_4.views.player_ui import PlayerUI
 
 
 class GameUI(QWidget):
