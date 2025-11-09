@@ -12,7 +12,7 @@ class GeneralGame(BaseGame):
         count = self.check_sos(row, col, letter)
 
         if count > 0:
-            self.players[player].score += count
+            self.players[player].add_to_score(count)
 
             if self.board.is_full():
                 return self._check_winner()
@@ -28,9 +28,9 @@ class GeneralGame(BaseGame):
 
         self.game_over = True
 
-        if self.players[0].score > self.players[1].score:
+        if self.players[0].get_score() > self.players[1].get_score():
             return "We have a winner."
-        elif self.players[1].score > self.players[0].score:
+        elif self.players[1].get_score() > self.players[0].get_score():
             return "We have a winner."
         else:
             return "We have a draw."

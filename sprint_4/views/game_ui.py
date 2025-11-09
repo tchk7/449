@@ -25,6 +25,8 @@ class GameUI(QWidget):
         self.red_player = Player("Red")
         self.red_player_ui = PlayerUI(self.red_player)
 
+        self.player_uis = [self.blue_player_ui, self.red_player_ui]
+
         self.new_game = QPushButton("New Game")
 
         self.game_type_label = QLabel("Game Mode:")
@@ -66,7 +68,7 @@ class GameUI(QWidget):
         self.controller = Game(self)
 
     def get_player_uis(self):
-        return [self.blue_player_ui, self.red_player_ui]
+        return self.player_uis
 
     def get_board_ui(self):
         return self.board_ui
@@ -94,6 +96,20 @@ class GameUI(QWidget):
 
     def enable_board(self):
         self.board_ui.setEnabled(True)
+
+    def update_player_turn_label(self, player_name):
+        self.player_turn_label.setText(player_name)
+
+    def update_player_score(self, player, score):
+
+        if 0 <= player < len(self.player_uis):
+            self.player_uis[player].update_score(score)
+
+    def get_board_size_text(self):
+        return self.board_size_text_box.text()
+
+
+
 
 
 

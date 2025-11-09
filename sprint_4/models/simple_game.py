@@ -11,7 +11,7 @@ class SimpleGame(BaseGame):
 
         if self.check_sos(row, col, letter) > 0:
             self.game_over = True
-            self.players[player].score = 1
+            self.players[player].set_score(1)
             return "WIN"
 
         if self.board.is_full():

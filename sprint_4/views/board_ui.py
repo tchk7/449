@@ -14,7 +14,7 @@ class BoardUI(QWidget):
         self.layout.addLayout(self.grid_layout)
 
         self.buttons = []
-        for row in range(self.board.size):
+        for row in range(self.board.get_size()):
             button_row = []
             for col in range(self.board.size):
                 btn = QPushButton("")

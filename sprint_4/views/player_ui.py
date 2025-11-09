@@ -13,7 +13,7 @@ class PlayerUI(QWidget):
         player_name = QLabel(player.name)
         player_name.setAlignment(Qt.AlignCenter)
 
-        self.score = QLabel(f"Score: {player.score}")
+        self.score = QLabel(f"Score: {player.get_score()}")
         self.score.setAlignment(Qt.AlignCenter)
 
         self.letter_s = QRadioButton("S")

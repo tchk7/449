@@ -1,5 +1,14 @@
 class Player:
     def __init__(self, name):
         self.name = name + " Player"
-        self.score = 0
+        self._score = 0
+
+    def get_score(self):
+        return self._score
+
+    def add_to_score(self, points):
+        return self._score + points
+
+    def set_score(self, score):
+        self._score = score
 

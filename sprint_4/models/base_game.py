@@ -15,8 +15,7 @@ class BaseGame:
     def check_sos(self, row, col, letter):
 
         count = 0
-        grid = self.board.grid
-        size = self.board.size
+        size = self.board.get_size()
 
         _all_dir = [(0, 1), (0, -1), (1, 0), (-1, 0),
                     (1, 1), (1, -1), (-1, 1), (-1, -1)]
@@ -29,7 +28,7 @@ class BaseGame:
                 row_2, col_2 = row - row_pos, col - col_pos
 
                 if self._is_valid(row_1, col_1, size) and self._is_valid(row_2, col_2, size):
-                    if grid[row_1][col_1] == 'S' and grid[row_2][col_2] == 'S':
+                    if self.board.get_cell(row_1, col_1) == 'S' and self.board.get_cell(row_2, col_2) == 'S':
                         count += 1
 
         elif letter == 'S':
@@ -38,7 +37,7 @@ class BaseGame:
                 s_row, s_col = row - 2*row_pos, col - 2*col_pos
 
                 if self._is_valid(o_row, o_col, size) and self._is_valid(s_row, s_col, size):
-                    if grid[o_row][o_col] == 'O' and grid[s_row][s_col] == 'S':
+                    if self.board.get_cell(o_row, o_col) == 'O' and self.board.get_cell(s_row, s_col) == 'S':
                         count += 1
 
         return count
