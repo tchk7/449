@@ -50,4 +50,20 @@ class Board:
         self._grid = self._create_grid()
 
     def get_size(self):
+        """Return board size"""
+
         return self._size
+
+    def get_empty_cells(self):
+        """Return list of empty cells"""
+
+        empty_cells = []
+
+        for row in range(self._size):
+            for col in range(self._size):
+                if self.is_empty(row, col):
+                    empty_cells.append([row, col])
+
+        return empty_cells
+
+
