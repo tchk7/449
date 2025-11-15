@@ -1,6 +1,6 @@
 class Player:
     def __init__(self, name):
-        self.name = name + " Player"
+        self._name = name + " Player"
         self._score = 0
 
     def get_score(self):
@@ -12,3 +12,5 @@ class Player:
     def set_score(self, score):
         self._score = score
 
+    def get_name(self):
+        return self._name

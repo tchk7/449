@@ -4,6 +4,7 @@ class BasePlayer:
     def __init__(self, name):
         self.name = name + " Player"
         self._score = 0
+        self._computer = False
 
     def get_score(self):
         return self._score
@@ -16,3 +17,9 @@ class BasePlayer:
 
     def make_move(self, board, game):
         return
+
+    def get_name(self):
+        return self.name
+
+    def is_computer(self):
+        return self._computer

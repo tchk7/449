@@ -5,13 +5,13 @@ import sys
 from sprint_4.models.player import Player
 
 class PlayerUI(QWidget):
-    def __init__(self, player):
+    def __init__(self):
         super().__init__()
 
-        self.player = player
+        self.player  = None
 
-        player_name = QLabel(player.name)
-        player_name.setAlignment(Qt.AlignCenter)
+        self.player_name_text = QLabel(self.player.get_name())
+        self.player_name_text.setAlignment(Qt.AlignCenter)
 
         self.human_radio = QRadioButton("Human")
         self.human_radio.setChecked(True)
@@ -31,7 +31,7 @@ class PlayerUI(QWidget):
         computer_layout = QVBoxLayout()
         computer_layout.addWidget(self.computer_radio)
 
-        self.score = QLabel(f"Score: {player.get_score()}")
+        self.score = QLabel(f"Score: {self.player.get_score()}")
         self.score.setAlignment(Qt.AlignCenter)
 
         self.letter_s = QRadioButton("S")
@@ -56,7 +56,7 @@ class PlayerUI(QWidget):
 
 
         player_layout = QVBoxLayout()
-        player_layout.addWidget(player_name)
+        player_layout.addWidget(self.player_name_text)
         player_layout.addLayout(player_type_layout)
         player_layout.addLayout(player_letter_layout)
         # player_layout.addWidget(self.letter_s, alignment=Qt.AlignCenter)
@@ -74,8 +74,14 @@ class PlayerUI(QWidget):
             return "O"
         return None
 
-    def get_player(self):
-        return self.player
+    def get_player(self, player):
+
+        self.player = player
+        self.player_name_text.setText(self.player.get_name())
+        self.update_score(self.player.get_score())
 
     def update_score(self, score):
         self.score.setText(f"Score: {score}")
+
+    def is_computer(self):
+        return self.computer_radio.isChecked()
