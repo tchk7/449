@@ -108,6 +108,14 @@ class GameUI(QWidget):
     def get_board_size_text(self):
         return self.board_size_text_box.text()
 
+    def set_options_enabled(self, is_enabled):
+        self.board_size_text_box.setEnabled(is_enabled)
+        self.simple_radio.setEnabled(is_enabled)
+        self.general_radio.setEnabled(is_enabled)
+
+        for player_ui in self.player_uis:
+            player_ui.set_options_enabled(is_enabled)
+
 
 
 

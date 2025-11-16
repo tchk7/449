@@ -85,3 +85,7 @@ class PlayerUI(QWidget):
 
     def is_computer(self):
         return self.computer_radio.isChecked()
+
+    def set_options_enabled(self, is_enabled):
+        self.human_radio.setEnabled(is_enabled)
+        self.computer_radio.setEnabled(is_enabled)

@@ -1,7 +1,11 @@
 from functools import partial
 
+from PySide6.QtWidgets import QApplication
+
 from sprint_4.models.board import Board
+from sprint_4.models.computer_player import ComputerPlayer
 from sprint_4.models.general_game import GeneralGame
+from sprint_4.models.human_player import HumanPlayer
 from sprint_4.models.simple_game import SimpleGame
 
 
@@ -11,7 +15,7 @@ class Game():
         self.board_ui = self.game_ui.get_board_ui()
         self.player_uis = self.game_ui.get_player_uis()
 
-        self.players = [self.player_uis[0].get_player(), self.player_uis[1].get_player()]
+        self.players = []
 
         self.current_player = 0
 
@@ -35,8 +39,13 @@ class Game():
     def handle_click(self, row, col):
         board = self.board_ui.get_board()
 
+        if self.players[self.current_player].is_computer:
+            return
+
         if not board.is_empty(row, col) or self.game_type.game_over:
             return
+
+        self.game_ui.set_options_enabled(False)
 
         player_ui = self.player_uis[self.current_player]
 
@@ -45,6 +54,11 @@ class Game():
         self.buttons[row][col].setText(letter)
 
         status = self.game_type.handle_move(row, col, letter, self.current_player)
+
+        self._game_status(status)
+
+
+    def _game_status(self, status):
 
         switch_player = False
 
@@ -58,16 +72,15 @@ class Game():
             self.game_ui.disable_board()
 
         elif status == "SCORE":
-            # current_player_ui = self.player_uis[self.current_player]
+
             current_player_now = self.players[self.current_player]
-            # current_player_ui.update_score(current_player_now.score)
 
             score = current_player_now.get_score()
 
             self.game_ui.update_player_score(self.current_player, score)
 
             switch_player = False
-            self.game_ui.update_player_turn_label(f"{self.players[self.current_player].name} scores. Go again.")
+            self.game_ui.update_player_turn_label(f"{self.players[self.current_player].get_name()} scores. Go again.")
 
         elif status == "CONTINUE":
             switch_player = True
@@ -76,17 +89,13 @@ class Game():
             player_1_score = self.players[0].get_score()
             player_2_score = self.players[1].get_score()
 
-            # self.player_uis[0].update_score(player_1_score)
-            # self.player_uis[1].update_score(player_2_score)
-
             self.game_ui.update_player_score(0, player_1_score)
             self.game_ui.update_player_score(1, player_2_score)
 
-
             if player_1_score > player_2_score:
-                winner = self.players[0].name
+                winner = self.players[0].get_name()
             else:
-                winner = self.players[1].name
+                winner = self.players[1].get_name()
 
             self.game_ui.show_winner_message(f"{winner} wins with {max(player_1_score, player_2_score)} points.")
             self.game_ui.disable_board()
@@ -102,6 +111,10 @@ class Game():
             next_player = self.players[self.current_player]
             self.game_ui.update_player_turn_label(f"{next_player.name}'s Turn")
 
+        self.check_player_turn()
+
+
+
 
     def start_new_game(self):
 
@@ -113,26 +126,38 @@ class Game():
 
         board = Board(size)
 
-        self.board_ui = self.game_ui.build_board_ui(board)
-        self.connect_buttons()
+        self.players = []
 
-        for player in self.players:
-            player.set_score(0)
+        if self.player_uis[0].is_computer():
+            self.players.append(ComputerPlayer("Blue"))
+        else:
+            self.players.append(HumanPlayer("Blue"))
 
-        # self.player_uis[0].update_score(0)
-        # self.player_uis[1].update_score(0)
+        if self.player_uis[1].is_computer():
+            self.players.append(ComputerPlayer("Red"))
+        else:
+            self.players.append(HumanPlayer("Red"))
 
-        self.game_ui.update_player_score(0, 0)
-        self.game_ui.update_player_score(1, 0)
+        self.player_uis[0].get_player(self.players[0])
+        self.player_uis[1].get_player(self.players[1])
 
-        self.current_player = 0
 
         if self.game_mode == "Simple":
             self.game_type = SimpleGame(board, self.players)
         else:
             self.game_type = GeneralGame(board, self.players)
 
-        self.game_ui.update_player_turn_label(f"{self.players[0].name}'s Turn")
+        self.game_ui.update_player_score(0, self.players[0].get_score())
+        self.game_ui.update_player_score(1, self.players[1].get_score())
+
+        self.board_ui = self.game_ui.build_board_ui(board)
+        self.connect_buttons()
+
+        self.current_player = 0
+
+        self.game_ui.set_options_enabled(True)
+
+        self.game_ui.update_player_turn_label(f"{self.players[0].get_name()}'s Turn")
         self.game_ui.enable_board()
 
     def update_game_mode(self):
@@ -140,3 +165,37 @@ class Game():
             self.game_mode = "Simple"
         elif self.game_ui.general_radio.isChecked():
             self.game_mode = "General"
+
+    def check_player_turn(self):
+
+        if self.game_type.game_over:
+            return
+
+        current_player_now = self.players[self.current_player]
+
+        if current_player_now.is_computer:
+            self.game_ui.disable_board()
+            QApplication.processEvents()
+
+            board = self.board_ui.get_board()
+
+            row, col, letter = current_player_now.make_move(board, self.game_type)
+
+            if row is not None:
+                self.process_computer_move(row, col, letter)
+            else:
+                self.game_ui.enable_board()
+
+
+
+
+    def process_computer_move(self, row, col, letter):
+
+        self.game_ui.set_options_enabled(False)
+
+        self.buttons[row][col].setText(letter)
+
+        status = self.game_type.handle_move(row, col, letter, self.current_player)
+
+        self._game_status(status)
+
