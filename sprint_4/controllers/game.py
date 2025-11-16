@@ -23,7 +23,7 @@ class Game():
         # self.connect_buttons()
 
         self.game_mode = "Simple"
-        self.game_type = SimpleGame(self.board_ui.get_board(), self.players)
+        # self.game_type = SimpleGame(self.board_ui.get_board(), self.players)
         self.game_type = None
 
         self.game_ui.simple_radio.toggled.connect(self.update_game_mode)
@@ -31,7 +31,7 @@ class Game():
 
         self.game_ui.new_game.clicked.connect(self.start_new_game)
 
-        self.start_new_game()
+        # self.start_new_game()
 
     def connect_buttons(self):
         self.buttons = self.board_ui.get_buttons()
@@ -42,7 +42,7 @@ class Game():
     def handle_click(self, row, col):
         board = self.board_ui.get_board()
 
-        if self.players[self.current_player].is_computer:
+        if self.players[self.current_player].is_computer():
             return
 
         if not board.is_empty(row, col) or self.game_type.game_over:
@@ -60,13 +60,20 @@ class Game():
 
         self._process_move_status(status)
 
+        if self.game_type.game_over:
+            self.game_ui.set_options_enabled(True)
+
 
     def _process_move_status(self, status):
 
         switch_player = False
 
+        current_player_now = self.players[self.current_player]
+        score = current_player_now.get_score()
+
         if status == "WIN":
             winner = self.players[self.current_player].get_name()
+            self.game_ui.update_player_score(self.current_player, score)
             self.game_ui.show_winner_message(f"{winner} wins.")
             self.game_ui.disable_board()
 
@@ -75,10 +82,6 @@ class Game():
             self.game_ui.disable_board()
 
         elif status == "SCORE":
-
-            current_player_now = self.players[self.current_player]
-
-            score = current_player_now.get_score()
 
             self.game_ui.update_player_score(self.current_player, score)
 
@@ -209,4 +212,7 @@ class Game():
         status = self.game_type.handle_move(row, col, letter, self.current_player)
 
         self._process_move_status(status)
+
+        if self.game_type.game_over:
+            self.game_ui.set_options_enabled(True)
 

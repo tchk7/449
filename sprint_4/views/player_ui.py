@@ -89,3 +89,14 @@ class PlayerUI(QWidget):
     def set_options_enabled(self, is_enabled):
         self.human_radio.setEnabled(is_enabled)
         self.computer_radio.setEnabled(is_enabled)
+
+        if is_enabled:
+            self.letter_s.setEnabled(True)
+            self.letter_o.setEnabled(True)
+        else:
+            if self.is_computer():
+                self.letter_s.setEnabled(False)
+                self.letter_o.setEnabled(False)
+            else:
+                self.letter_s.setEnabled(True)
+                self.letter_o.setEnabled(True)

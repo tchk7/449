@@ -7,7 +7,6 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit
 
 from sprint_4.controllers.game import Game
 from sprint_4.models.board import Board
-from sprint_4.models.player import Player
 from sprint_4.views.board_ui import BoardUI
 from sprint_4.views.player_ui import PlayerUI
 
@@ -66,6 +65,7 @@ class GameUI(QWidget):
         self.resize(500, 500)
 
         self.controller = Game(self)
+        self.controller.start_new_game()
 
     def get_player_uis(self):
         return self.player_uis
