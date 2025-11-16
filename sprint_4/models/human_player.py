@@ -7,5 +7,5 @@ class HumanPlayer(BasePlayer):
         self._computer = False
 
 
-    def make_move(self, board, game):
-        return
+    def decide_move(self, board, game):
+        return None

@@ -49,7 +49,7 @@ class GameUI(QWidget):
         board_size_layout.addWidget(self.board_size_text_box)
 
 
-        # self.player_turn_label = QLabel(f"{self.blue_player.get_name()}'s Turn", alignment=Qt.AlignCenter)
+        self.player_turn_label = QLabel(f"SOS Game New", alignment=Qt.AlignCenter)
 
         self.grid = QGridLayout()
         self.setLayout(self.grid)
@@ -60,7 +60,7 @@ class GameUI(QWidget):
         self.grid.addWidget(self.blue_player_ui, 2, 0, 1, 1)
         self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
         self.grid.addWidget(self.red_player_ui, 2, 4, 1, 1)
-        # self.grid.addWidget(self.player_turn_label, 4, 0, 1, 5)
+        self.grid.addWidget(self.player_turn_label, 4, 0, 1, 5)
         self.grid.addWidget(self.new_game, 0, 4, 1, 1)
 
         self.resize(500, 500)
@@ -97,8 +97,8 @@ class GameUI(QWidget):
     def enable_board(self):
         self.board_ui.setEnabled(True)
 
-    # def update_player_turn_label(self, player_name):
-    #     self.player_turn_label.setText(player_name)
+    def update_player_turn_label(self, player_name):
+        self.player_turn_label.setText(player_name)
 
     def update_player_score(self, player, score):
 

@@ -15,8 +15,8 @@ class BasePlayer:
     def add_to_score(self, points):
         self._score += points
 
-    def make_move(self, board, game):
-        return
+    def decide_move(self, board, game):
+        return None
 
     def get_name(self):
         return self.name

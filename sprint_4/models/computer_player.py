@@ -9,12 +9,12 @@ class ComputerPlayer(BasePlayer):
         self._computer = True
 
 
-    def make_move(self, board, game_type):
+    def decide_move(self, board, game_type):
 
         empty_cells = board.get_empty_cells()
 
         if not empty_cells:
-            return None
+            return None, None, None
 
         # row, col = random.choice(empty_cells)
         # letter = random.choice(['S', 'O'])
@@ -30,5 +30,5 @@ class ComputerPlayer(BasePlayer):
         (row, col) = random.choice(empty_cells)
         letter = random.choice(['S', 'O'])
 
-        return row, col, letter
+        return (row, col, letter)
 

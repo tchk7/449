@@ -10,7 +10,7 @@ class PlayerUI(QWidget):
 
         self.player  = None
 
-        self.player_name_text = QLabel(self.player.get_name())
+        self.player_name_text = QLabel("Player")
         self.player_name_text.setAlignment(Qt.AlignCenter)
 
         self.human_radio = QRadioButton("Human")
@@ -31,7 +31,7 @@ class PlayerUI(QWidget):
         computer_layout = QVBoxLayout()
         computer_layout.addWidget(self.computer_radio)
 
-        self.score = QLabel(f"Score: {self.player.get_score()}")
+        self.score = QLabel(f"Score: 0")
         self.score.setAlignment(Qt.AlignCenter)
 
         self.letter_s = QRadioButton("S")
@@ -74,7 +74,7 @@ class PlayerUI(QWidget):
             return "O"
         return None
 
-    def get_player(self, player):
+    def link_player(self, player):
 
         self.player = player
         self.player_name_text.setText(self.player.get_name())

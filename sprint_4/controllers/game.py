@@ -20,15 +20,18 @@ class Game():
         self.current_player = 0
 
         self.buttons = []
-        self.connect_buttons()
+        # self.connect_buttons()
 
         self.game_mode = "Simple"
         self.game_type = SimpleGame(self.board_ui.get_board(), self.players)
+        self.game_type = None
 
         self.game_ui.simple_radio.toggled.connect(self.update_game_mode)
         self.game_ui.general_radio.toggled.connect(self.update_game_mode)
 
         self.game_ui.new_game.clicked.connect(self.start_new_game)
+
+        self.start_new_game()
 
     def connect_buttons(self):
         self.buttons = self.board_ui.get_buttons()
@@ -55,15 +58,15 @@ class Game():
 
         status = self.game_type.handle_move(row, col, letter, self.current_player)
 
-        self._game_status(status)
+        self._process_move_status(status)
 
 
-    def _game_status(self, status):
+    def _process_move_status(self, status):
 
         switch_player = False
 
         if status == "WIN":
-            winner = self.players[self.current_player].name
+            winner = self.players[self.current_player].get_name()
             self.game_ui.show_winner_message(f"{winner} wins.")
             self.game_ui.disable_board()
 
@@ -109,7 +112,7 @@ class Game():
 
         if not self.game_type.game_over:
             next_player = self.players[self.current_player]
-            self.game_ui.update_player_turn_label(f"{next_player.name}'s Turn")
+            self.game_ui.update_player_turn_label(f"{next_player.get_name()}'s Turn")
 
         self.check_player_turn()
 
@@ -138,8 +141,8 @@ class Game():
         else:
             self.players.append(HumanPlayer("Red"))
 
-        self.player_uis[0].get_player(self.players[0])
-        self.player_uis[1].get_player(self.players[1])
+        self.player_uis[0].link_player(self.players[0])
+        self.player_uis[1].link_player(self.players[1])
 
 
         if self.game_mode == "Simple":
@@ -160,6 +163,8 @@ class Game():
         self.game_ui.update_player_turn_label(f"{self.players[0].get_name()}'s Turn")
         self.game_ui.enable_board()
 
+        self.check_player_turn()
+
     def update_game_mode(self):
         if self.game_ui.simple_radio.isChecked():
             self.game_mode = "Simple"
@@ -179,12 +184,18 @@ class Game():
 
             board = self.board_ui.get_board()
 
-            row, col, letter = current_player_now.make_move(board, self.game_type)
+            next_move = current_player_now.decide_move(board, self.game_type)
 
-            if row is not None:
+            if next_move:
+                row, col, letter = next_move
                 self.process_computer_move(row, col, letter)
+
             else:
                 self.game_ui.enable_board()
+
+        else:
+            self.game_ui.enable_board()
+
 
 
 
@@ -197,5 +208,5 @@ class Game():
 
         status = self.game_type.handle_move(row, col, letter, self.current_player)
 
-        self._game_status(status)
+        self._process_move_status(status)
 
