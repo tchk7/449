@@ -34,7 +34,7 @@ def game_board():
 def test_is_valid(game_board, row, col, expected):
 
     size = game_board.board.get_size()
-    assert game_board._is_valid(row, col, size) == expected
+    assert game_board._is_valid(row, col) == expected
 
 @pytest.mark.parametrize(
     "positions, row_col, expected",

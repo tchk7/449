@@ -2,12 +2,12 @@ import pytest
 
 from sprint_4.models.board import Board
 from sprint_4.models.general_game import GeneralGame
-from sprint_4.models.player import Player
+from sprint_4.models.human_player import HumanPlayer
 
 @pytest.fixture
 def players():
 
-    return [Player("Blue"), Player("Red")]
+    return [HumanPlayer("Blue"), HumanPlayer("Red")]
 
 @pytest.fixture
 def general_game(players):

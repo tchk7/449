@@ -1,15 +1,13 @@
-from idlelib.debugger_r import restart_subprocess_debugger
-
 import pytest
 
 from sprint_4.models.board import Board
-from sprint_4.models.player import Player
+from sprint_4.models.human_player import HumanPlayer
 from sprint_4.models.simple_game import SimpleGame
 
 @pytest.fixture
 def players():
 
-    return [Player("Blue"), Player("Red")]
+    return [HumanPlayer("Blue"), HumanPlayer("Red")]
 
 @pytest.fixture
 def simple_game(players):
