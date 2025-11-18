@@ -17,14 +17,8 @@ class GameUI(QWidget):
         super().__init__()
         self.setWindowTitle("SOS Game")
 
-        self.game_board = Board()
-        self.board_ui = BoardUI(self.game_board)
-        # self.blue_player = Player("Blue")
-        self.blue_player_ui = PlayerUI()
-        # self.red_player = Player("Red")
-        self.red_player_ui = PlayerUI()
-
-        self.player_uis = [self.blue_player_ui, self.red_player_ui]
+        self._init_models()
+        self._init_player_uis()
 
         self.new_game = QPushButton("New Game")
 
@@ -33,28 +27,10 @@ class GameUI(QWidget):
         self.simple_radio.setChecked(True)
         self.general_radio = QRadioButton("General Game")
 
-        radio_layout = QHBoxLayout()
-        radio_layout.addWidget(self.game_type_label)
-        radio_layout.addWidget(self.simple_radio)
-        radio_layout.addWidget(self.general_radio)
+        self._build_radio_layout()
 
-        board_size_label = QLabel("Board Size")
-        self.board_size_text_box = QLineEdit()
-        self.board_size_text_box.setValidator(QIntValidator(3, 12))
-        self.board_size_text_box.setPlaceholderText("Choose 3 to 12")
+        self._init_layout()
 
-        board_size_layout = QHBoxLayout()
-        board_size_layout.addWidget(board_size_label)
-        board_size_layout.addWidget(self.board_size_text_box)
-
-
-        self.player_turn_label = QLabel(f"SOS Game New", alignment=Qt.AlignCenter)
-
-        self.grid = QGridLayout()
-        self.setLayout(self.grid)
-
-        self.grid.addLayout(radio_layout, 0, 0, 1, 2)
-        self.grid.addLayout(board_size_layout, 0, 3, 1, 1)
         self.grid.addWidget(QWidget(), 0, 2, 1, 1)
         self.grid.addWidget(self.blue_player_ui, 2, 0, 1, 1)
         self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
@@ -64,8 +40,55 @@ class GameUI(QWidget):
 
         self.resize(500, 500)
 
+        self._init_controller()
+
+    def _init_models(self):
+        self.game_board = Board()
+        self.board_ui = BoardUI(self.game_board)
+
+    def _init_player_uis(self):
+        self.blue_player_ui = PlayerUI()
+        self.red_player_ui = PlayerUI()
+        self.player_uis = [self.blue_player_ui, self.red_player_ui]
+
+    def _init_controller(self):
         self.controller = Game(self)
         self.controller.start_new_game()
+
+    def _init_layout(self):
+        board_size_label = QLabel("Board Size")
+        self.board_size_text_box = QLineEdit()
+        self.board_size_text_box.setValidator(QIntValidator(3, 12))
+        self.board_size_text_box.setPlaceholderText("Choose 3 to 12")
+
+        board_size_layout = QHBoxLayout()
+        board_size_layout.addWidget(board_size_label)
+        board_size_layout.addWidget(self.board_size_text_box)
+
+        self.player_turn_label = QLabel(f"SOS Game New", alignment=Qt.AlignCenter)
+        self.grid = QGridLayout()
+        self.setLayout(self.grid)
+
+        self.grid.addLayout(self._build_radio_layout(), 0, 0, 1, 2)
+        self.grid.addLayout(board_size_layout, 0, 3, 1, 1)
+        self.grid.addWidget(self._build_board_ui(), 1, 1, 3, 3)
+
+        left, right = self._build_player_uis()
+        self.grid.addWidget(left, 2, 0)
+        self.grid.addWidget(right, 2, 4)
+
+    def _build_radio_layout(self):
+        radio_layout = QHBoxLayout()
+        radio_layout.addWidget(self.game_type_label)
+        radio_layout.addWidget(self.simple_radio)
+        radio_layout.addWidget(self.general_radio)
+        return radio_layout
+
+    def _build_player_uis(self):
+        return self.blue_player_ui, self.red_player_ui
+
+    def _build_board_ui(self):
+        return self.board_ui
 
     def get_player_uis(self):
         return self.player_uis
@@ -115,8 +138,6 @@ class GameUI(QWidget):
 
         for player_ui in self.player_uis:
             player_ui.set_options_enabled(is_enabled)
-
-
 
 
 

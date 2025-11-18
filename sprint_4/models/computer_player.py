@@ -16,11 +16,6 @@ class ComputerPlayer(BasePlayer):
         if not empty_cells:
             return None, None, None
 
-        # row, col = random.choice(empty_cells)
-        # letter = random.choice(['S', 'O'])
-        #
-        # game.handle_click(row, col, letter)
-
         for (row, col) in empty_cells:
             if game_type.check_sos(row, col, 'S') > 0:
                 return row, col, 'S'

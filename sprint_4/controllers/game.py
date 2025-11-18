@@ -63,6 +63,29 @@ class Game():
         if self.game_type.game_over:
             self.game_ui.set_options_enabled(True)
 
+    def _handle_simple_win(self):
+        winner = self.players[self.current_player].get_name()
+        self.game_ui.show_winner_message(f"{winner} wins.")
+        self.game_ui.disable_board()
+
+    def _handle_draw(self):
+        self.game_ui.show_draw_message()
+        self.game_ui.disable_board()
+
+    def _handle_general_win(self):
+        player_1_score = self.players[0].get_score()
+        player_2_score = self.players[1].get_score()
+
+        self.game_ui.update_player_score(0, player_1_score)
+        self.game_ui.update_player_score(1, player_2_score)
+
+        if player_1_score > player_2_score:
+            winner = self.players[0].get_name()
+        else:
+            winner = self.players[1].get_name()
+
+        self.game_ui.show_winner_message(f"{winner} wins with {max(player_1_score, player_2_score)} points.")
+        self.game_ui.disable_board()
 
     def _process_move_status(self, status):
 
@@ -72,55 +95,35 @@ class Game():
         score = current_player_now.get_score()
 
         if status == "WIN":
-            winner = self.players[self.current_player].get_name()
             self.game_ui.update_player_score(self.current_player, score)
-            self.game_ui.show_winner_message(f"{winner} wins.")
-            self.game_ui.disable_board()
+            self._handle_simple_win()
 
         elif status == "DRAW":
-            self.game_ui.show_draw_message()
-            self.game_ui.disable_board()
+            self._handle_draw()
 
         elif status == "SCORE":
-
-            self.game_ui.update_player_score(self.current_player, score)
-
             switch_player = False
+            self.game_ui.update_player_score(self.current_player, score)
             self.game_ui.update_player_turn_label(f"{self.players[self.current_player].get_name()} scores. Go again.")
 
         elif status == "CONTINUE":
             switch_player = True
 
         elif status == "We have a winner.":
-            player_1_score = self.players[0].get_score()
-            player_2_score = self.players[1].get_score()
+            self._handle_general_win()
 
-            self.game_ui.update_player_score(0, player_1_score)
-            self.game_ui.update_player_score(1, player_2_score)
-
-            if player_1_score > player_2_score:
-                winner = self.players[0].get_name()
-            else:
-                winner = self.players[1].get_name()
-
-            self.game_ui.show_winner_message(f"{winner} wins with {max(player_1_score, player_2_score)} points.")
-            self.game_ui.disable_board()
 
         elif status == "We have a draw.":
-            self.game_ui.show_draw_message()
-            self.game_ui.disable_board()
+            self._handle_draw()
 
         if switch_player and not self.game_type.game_over:
             self.current_player = 1 - self.current_player
 
-        if not self.game_type.game_over:
+        if not self.game_type.game_over and status != "SCORE":
             next_player = self.players[self.current_player]
             self.game_ui.update_player_turn_label(f"{next_player.get_name()}'s Turn")
 
         self.check_player_turn()
-
-
-
 
     def start_new_game(self):
 
@@ -135,12 +138,12 @@ class Game():
         self.players = []
 
         if self.player_uis[0].is_computer():
-            self.players.append(ComputerPlayer("Blue"))
+            self.players.append(ComputerPlayer("Blue (Computer)"))
         else:
             self.players.append(HumanPlayer("Blue"))
 
         if self.player_uis[1].is_computer():
-            self.players.append(ComputerPlayer("Red"))
+            self.players.append(ComputerPlayer("Red (Computer)"))
         else:
             self.players.append(HumanPlayer("Red"))
 
@@ -198,10 +201,6 @@ class Game():
 
         else:
             self.game_ui.enable_board()
-
-
-
-
 
     def process_computer_move(self, row, col, letter):
 

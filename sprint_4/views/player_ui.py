@@ -2,7 +2,6 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QApplication, QRadioButton, QHBoxLayout, QButtonGroup
 import sys
 
-from sprint_4.models.player import Player
 
 class PlayerUI(QWidget):
     def __init__(self):
@@ -22,14 +21,6 @@ class PlayerUI(QWidget):
         player_type_layout.addWidget(self.human_radio)
         player_type_layout.addWidget(self.computer_radio)
         player_type_layout.addStretch()
-
-
-
-        human_layout = QVBoxLayout()
-        human_layout.addWidget(self.human_radio)
-
-        computer_layout = QVBoxLayout()
-        computer_layout.addWidget(self.computer_radio)
 
         self.score = QLabel(f"Score: 0")
         self.score.setAlignment(Qt.AlignCenter)
@@ -59,8 +50,6 @@ class PlayerUI(QWidget):
         player_layout.addWidget(self.player_name_text)
         player_layout.addLayout(player_type_layout)
         player_layout.addLayout(player_letter_layout)
-        # player_layout.addWidget(self.letter_s, alignment=Qt.AlignCenter)
-        # player_layout.addWidget(self.letter_o, alignment=Qt.AlignCenter)
         player_layout.addWidget(self.score)
 
         self.setLayout(player_layout)
