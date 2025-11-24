@@ -31,7 +31,7 @@ class Game():
 
         self.game_ui.new_game.clicked.connect(self.start_new_game)
 
-        # self.start_new_game()
+        self.start_new_game()
 
     def connect_buttons(self):
         self.buttons = self.board_ui.get_buttons()
@@ -127,11 +127,7 @@ class Game():
 
     def start_new_game(self):
 
-        text = self.game_ui.get_board_size_text()
-        if text.isnumeric():
-            size = int(text)
-        else:
-            size = 3
+        size = self.game_ui.get_board_size()
 
         board = Board(size)
 
@@ -172,10 +168,8 @@ class Game():
         self.check_player_turn()
 
     def update_game_mode(self):
-        if self.game_ui.simple_radio.isChecked():
-            self.game_mode = "Simple"
-        elif self.game_ui.general_radio.isChecked():
-            self.game_mode = "General"
+
+        self.game_mode = self.game_ui.get_game_mode()
 
     def check_player_turn(self):
 

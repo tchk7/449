@@ -5,7 +5,6 @@ from PySide6.QtGui import QIntValidator
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication, \
     QRadioButton, QPushButton, QMessageBox
 
-from sprint_5.controllers.game import Game
 from sprint_5.models.board import Board
 from sprint_5.views.board_ui import BoardUI
 from sprint_5.views.player_ui import PlayerUI
@@ -40,8 +39,6 @@ class GameUI(QWidget):
 
         self.resize(500, 500)
 
-        self._init_controller()
-
     def _init_models(self):
         self.game_board = Board()
         self.board_ui = BoardUI(self.game_board)
@@ -50,10 +47,6 @@ class GameUI(QWidget):
         self.blue_player_ui = PlayerUI()
         self.red_player_ui = PlayerUI()
         self.player_uis = [self.blue_player_ui, self.red_player_ui]
-
-    def _init_controller(self):
-        self.controller = Game(self)
-        self.controller.start_new_game()
 
     def _init_layout(self):
         board_size_label = QLabel("Board Size")
@@ -128,8 +121,12 @@ class GameUI(QWidget):
         if 0 <= player < len(self.player_uis):
             self.player_uis[player].update_score(score)
 
-    def get_board_size_text(self):
-        return self.board_size_text_box.text()
+    def get_board_size(self):
+
+        text = self.board_size_text_box.text()
+        if text.isnumeric():
+            return int(text)
+        return 3
 
     def set_options_enabled(self, is_enabled):
         self.board_size_text_box.setEnabled(is_enabled)
@@ -139,13 +136,9 @@ class GameUI(QWidget):
         for player_ui in self.player_uis:
             player_ui.set_options_enabled(is_enabled)
 
+    def get_game_mode(self):
 
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = GameUI()
-    window.show()
-    sys.exit(app.exec())
-
+        if self.simple_radio.isChecked():
+            return "Simple"
+        return "General"
 
