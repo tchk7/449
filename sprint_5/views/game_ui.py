@@ -2,7 +2,7 @@ import sys
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIntValidator
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QCheckBox, QLabel, QLineEdit, QGridLayout, QApplication, \
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QLineEdit, QGridLayout, \
     QRadioButton, QPushButton, QMessageBox
 
 from sprint_5.models.board import Board

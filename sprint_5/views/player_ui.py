@@ -1,6 +1,5 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QApplication, QRadioButton, QHBoxLayout, QButtonGroup
-import sys
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QRadioButton, QHBoxLayout, QButtonGroup
 
 
 class PlayerUI(QWidget):

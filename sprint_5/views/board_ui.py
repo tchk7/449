@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QApplication, QPushButton
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QPushButton
 
 class BoardUI(QWidget):
     def __init__(self, board):

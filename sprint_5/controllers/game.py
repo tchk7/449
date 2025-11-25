@@ -20,10 +20,8 @@ class Game():
         self.current_player = 0
 
         self.buttons = []
-        # self.connect_buttons()
 
         self.game_mode = "Simple"
-        # self.game_type = SimpleGame(self.board_ui.get_board(), self.players)
         self.game_type = None
 
         self.game_ui.simple_radio.toggled.connect(self.update_game_mode)
