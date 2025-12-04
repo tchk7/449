@@ -3,7 +3,7 @@ import sys
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIntValidator
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QLineEdit, QGridLayout, \
-    QRadioButton, QPushButton, QMessageBox
+    QRadioButton, QPushButton, QMessageBox, QCheckBox
 
 from sprint_5.models.board import Board
 from sprint_5.views.board_ui import BoardUI
@@ -21,6 +21,9 @@ class GameUI(QWidget):
 
         self.new_game = QPushButton("New Game")
 
+        self.record_game_box = QCheckBox("Record Game")
+        self.replay_game_button = QPushButton("Replay Game")
+
         self.game_type_label = QLabel("Game Mode:")
         self.simple_radio = QRadioButton("Simple Game")
         self.simple_radio.setChecked(True)
@@ -32,10 +35,12 @@ class GameUI(QWidget):
 
         self.grid.addWidget(QWidget(), 0, 2, 1, 1)
         self.grid.addWidget(self.blue_player_ui, 2, 0, 1, 1)
-        self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
+        # self.grid.addWidget(self.board_ui, 1, 1, 3, 3)
         self.grid.addWidget(self.red_player_ui, 2, 4, 1, 1)
         self.grid.addWidget(self.player_turn_label, 4, 0, 1, 5)
         self.grid.addWidget(self.new_game, 0, 4, 1, 1)
+        self.grid.addWidget(self.record_game_box, 1, 0, 1, 1)
+        self.grid.addWidget(self.replay_game_button, 1, 4, 1, 1)
 
         self.resize(500, 500)
 
