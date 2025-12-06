@@ -1,8 +1,12 @@
+import json
+import os
+
+
 class GameRecorder:
     def __init__(self):
-        self.moves = []
-        self.game_settings = {}
-        self.is_recording = False
+        self._moves = []
+        self._game_settings = {}
+        self._is_recording = False
 
     def add_move(self, row, col, letter, player):
 
@@ -11,14 +15,42 @@ class GameRecorder:
                 "letter": letter,
                 "player": player
                 }
-        self.moves.append(move)
+        self._moves.append(move)
 
     def record_game(self, game_mode, board_size, player_type_1, player_type_2):
-        self.moves = []
-        self.game_settings = {"mode": game_mode,
+        self._moves = []
+        self._game_settings = {"mode": game_mode,
                               "board_size": board_size,
                               "player_type_1": player_type_1,
                               "player_type_2": player_type_2
                               }
-        self.is_recording = True
+        self._is_recording = True
 
+    def save_game(self, file):
+
+        if not self._moves:
+            return False
+
+        data = {"moves": self._moves,
+                "game_settings": self._game_settings
+                }
+
+        filename = file + ".json"
+
+        with open(filename, "w") as outfile:
+            json.dump(data, outfile)
+        return True
+
+    def load_game(self, file):
+
+        filename = file + ".json"
+
+        if not os.path.isfile(filename):
+            return None
+
+        with open(filename, "r") as infile:
+            data = json.load(infile)
+        return data
+
+    def get_recording_status(self):
+        return self._is_recording

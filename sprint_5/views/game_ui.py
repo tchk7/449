@@ -147,3 +147,5 @@ class GameUI(QWidget):
             return "Simple"
         return "General"
 
+    def is_recording(self):
+        return self.record_game_box.isChecked()
