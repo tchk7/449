@@ -9,13 +9,14 @@ class GameRecorder:
         self._is_recording = False
 
     def add_move(self, row, col, letter, player):
+        if self._is_recording:
 
-        move = {"row": row,
-                "col": col,
-                "letter": letter,
-                "player": player
-                }
-        self._moves.append(move)
+            move = {"row": row,
+                    "col": col,
+                    "letter": letter,
+                    "player": player
+                    }
+            self._moves.append(move)
 
     def record_game(self, game_mode, board_size, player_type_1, player_type_2):
         self._moves = []
