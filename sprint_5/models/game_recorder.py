@@ -27,7 +27,7 @@ class GameRecorder:
                               }
         self._is_recording = True
 
-    def save_game(self, file):
+    def save_game(self, file="game_record"):
 
         if not self._moves:
             return False
@@ -42,7 +42,7 @@ class GameRecorder:
             json.dump(data, outfile)
         return True
 
-    def load_game(self, file):
+    def load_game(self, file="game_record"):
 
         filename = file + ".json"
 

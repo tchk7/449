@@ -151,3 +151,13 @@ class GameUI(QWidget):
 
     def is_recording(self):
         return self.record_game_box.isChecked()
+
+    def set_board_size_text(self, size):
+        self.board_size_text_box.setText(str(size))
+
+    def set_game_mode(self, mode):
+
+        if mode == "Simple":
+            self.simple_radio.setChecked(True)
+        else:
+            self.general_radio.setChecked(True)
