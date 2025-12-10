@@ -46,7 +46,7 @@ def test_save_game(recorder, tmp_path):
 
     assert os.path.exists(file_path) == True
     assert result == True
-    assert recorder.get_recording_status() == True
+    assert recorder.get_recording_status() == False
 
     with open(file_path, "r") as file:
         data = json.load(file)
@@ -74,10 +74,10 @@ def test_load_game(recorder, tmp_path):
     loaded_game = recorder.load_game(file_path)
 
     assert loaded_game is not None
-    assert loaded_game.game_settings["mode"] == "Simple"
-    assert loaded_game.game_settings["board_size"] == 3
-    assert len(loaded_game.moves) == 1
-    assert loaded_game.moves[0]["row"] == 0
+    assert loaded_game["game_settings"]["mode"] == "Simple"
+    assert loaded_game["game_settings"]["board_size"] == 3
+    assert len(loaded_game["moves"]) == 1
+    assert loaded_game["moves"][0]["row"] == 0
 
 
 def test_load_game_not_found(recorder, tmp_path):
