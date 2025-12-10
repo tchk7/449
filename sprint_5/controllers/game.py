@@ -1,3 +1,5 @@
+from datetime import datetime
+import os.path
 from functools import partial
 
 from PySide6.QtCore import QTimer
@@ -17,6 +19,8 @@ class Game():
         self.board_ui = self.game_ui.get_board_ui()
         self.player_uis = self.game_ui.get_player_uis()
 
+        self.recorder = GameRecorder()
+
         self.players = []
 
         self.current_player = 0
@@ -28,10 +32,10 @@ class Game():
 
         self.game_ui.simple_radio.toggled.connect(self.update_game_mode)
         self.game_ui.general_radio.toggled.connect(self.update_game_mode)
+        self.game_ui.replay_game_button.clicked.connect(lambda: self.start_replay())
 
         self.game_ui.new_game.clicked.connect(self.start_new_game)
 
-        self.game_ui.replay_game_button.clicked.connect(self.start_replay)
 
         self.start_new_game()
 
@@ -57,6 +61,9 @@ class Game():
         letter = player_ui.get_selected_letter()
 
         self.buttons[row][col].setText(letter)
+
+        if self.recorder.get_recording_status():
+            self.recorder.add_move(row, col, letter, self.current_player)
 
         status = self.game_type.handle_move(row, col, letter, self.current_player)
 
@@ -98,9 +105,11 @@ class Game():
 
         if status == "WIN":
             self.game_ui.update_player_score(self.current_player, score)
+            self.save_recording()
             self._handle_simple_win()
 
         elif status == "DRAW":
+            self.save_recording()
             self._handle_draw()
 
         elif status == "SCORE":
@@ -112,10 +121,12 @@ class Game():
             switch_player = True
 
         elif status == "We have a winner.":
+            self.save_recording()
             self._handle_general_win()
 
 
         elif status == "We have a draw.":
+            self.save_recording()
             self._handle_draw()
 
         if switch_player and not self.game_type.game_over:
@@ -124,6 +135,9 @@ class Game():
         if not self.game_type.game_over and status != "SCORE":
             next_player = self.players[self.current_player]
             self.game_ui.update_player_turn_label(f"{next_player.get_name()}'s Turn")
+
+        if self.game_type.game_over:
+            return
 
         self.check_player_turn()
 
@@ -167,6 +181,8 @@ class Game():
         self.game_ui.update_player_turn_label(f"{self.players[0].get_name()}'s Turn")
         self.game_ui.enable_board()
 
+        self.start_recording()
+
         self.check_player_turn()
 
     def update_game_mode(self):
@@ -204,9 +220,102 @@ class Game():
 
         self.buttons[row][col].setText(letter)
 
+        if self.recorder.get_recording_status():
+            self.recorder.add_move(row, col, letter, self.current_player)
+
         status = self.game_type.handle_move(row, col, letter, self.current_player)
 
         self._process_move_status(status)
 
         if self.game_type.game_over:
             self.game_ui.set_options_enabled(True)
+
+
+    def start_recording(self):
+        if self.game_ui.is_recording():
+            self.recorder.record_game(
+                self.game_mode,
+                self.game_ui.get_board_size(),
+                "Computer" if self.player_uis[0].is_computer() else "Human",
+                "Computer" if self.player_uis[1].is_computer() else "Human"
+            )
+        else:
+            return
+
+    def set_replay_board(self, game_settings):
+
+        size = game_settings["board_size"]
+        self.game_mode = game_settings["mode"]
+
+        board = Board(size)
+        self.board_ui = self.game_ui.build_board_ui(board)
+        self.connect_buttons()
+
+        self.players = []
+        self.players.append(
+            ComputerPlayer("Blue (Computer)") if game_settings["player_type_1"] == "Computer"
+            else HumanPlayer("Blue")
+        )
+        self.players.append(
+            ComputerPlayer("Red (Computer)") if game_settings["player_type_2"] == "Computer"
+            else HumanPlayer("Red")
+        )
+        self.player_uis[0].link_player(self.players[0])
+        self.player_uis[1].link_player(self.players[1])
+
+        if self.game_mode == "Simple":
+            self.game_type = SimpleGame(board, self.players)
+        else:
+            self.game_type = GeneralGame(board, self.players)
+
+        self.current_player = 0
+        self.game_ui.update_player_score(0, self.players[0].get_score())
+        self.game_ui.update_player_score(1, self.players[1].get_score())
+        self.game_ui.set_options_enabled(False)
+        self.game_ui.disable_board()
+
+    def replay_move(self, moves, timer, index = 0):
+
+        if index >= len(moves):
+            self.game_ui.set_options_enabled(True)
+            self.game_ui.new_game.setEnabled(True)
+            self.game_ui.replay_game_button.setEnabled(True)
+            return
+
+        move = moves[index]
+
+        self.current_player = move["player"]
+        self.game_ui.update_player_turn_label(f"{self.players[move['player']].get_name()}'s Turn (Replay)")
+        self.buttons[move['row']][move['col']].setText(move['letter'])
+
+        self.game_type.handle_move(move["row"], move["col"], move["letter"], move["player"])
+
+        self.game_ui.update_player_score(0, self.players[0].get_score())
+        self.game_ui.update_player_score(1, self.players[1].get_score())
+
+        if not self.game_type.game_over:
+            QTimer.singleShot(timer, lambda: self.replay_move(moves, timer, index + 1))
+        else:
+            self.game_ui.set_options_enabled(True)
+            self.game_ui.new_game.setEnabled(True)
+            self.game_ui.replay_game_button.setEnabled(True)
+
+    def start_replay(self, file="game_record"):
+
+        data = self.recorder.load_game(file)
+
+        if not data:
+            return
+
+        self.set_replay_board(data["game_settings"])
+        self.game_ui.new_game.setEnabled(False)
+        self.game_ui.replay_game_button.setEnabled(False)
+        self.replay_move(data["moves"], 500, 0)
+
+    def save_recording(self):
+
+
+        if self.game_type.game_over and self.recorder.get_recording_status():
+
+            self.recorder.save_game("game_record")
+

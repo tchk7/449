@@ -108,9 +108,11 @@ class GameUI(QWidget):
 
     def show_winner_message(self, message):
         QMessageBox.information(self, "Game Over", message)
+        self.update_player_turn_label(message)
 
     def show_draw_message(self):
         QMessageBox.information(self, "Game Over", "We have a draw.")
+        self.update_player_turn_label("Draw")
 
     def disable_board(self):
         self.board_ui.setEnabled(False)
@@ -137,7 +139,6 @@ class GameUI(QWidget):
         self.board_size_text_box.setEnabled(is_enabled)
         self.simple_radio.setEnabled(is_enabled)
         self.general_radio.setEnabled(is_enabled)
-        self.replay_game_button.setEnabled(is_enabled)
         self.player_turn_label.setEnabled(is_enabled)
 
         for player_ui in self.player_uis:

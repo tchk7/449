@@ -17,8 +17,6 @@ class GameRecorder:
                     "player": player
                     }
             self._moves.append(move)
-            print(f"Added move {move}")
-            print(f"Move added. Total Moves: {len(self._moves)}")
 
     def record_game(self, game_mode, board_size, player_type_1, player_type_2):
         self._moves = []
@@ -28,15 +26,10 @@ class GameRecorder:
                               "player_type_2": player_type_2
                               }
         self._is_recording = True
-        print(f"Recording game mode: {game_mode}")
-        print(f"Record game board size: {board_size}")
-        print(f"Record game player 1 type: {player_type_1}")
-        print(f"Record game player 2 type: {player_type_2}")
 
     def save_game(self, file="game_record"):
 
         if not self._moves:
-            print("No moves added to game record")
             return False
 
         data = {"moves": self._moves,
